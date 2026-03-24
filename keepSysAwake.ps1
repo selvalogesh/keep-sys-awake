@@ -3,8 +3,14 @@
 #          - https://stackoverflow.com/questions/54649456/powershell-notifyicon-context-menu
 #          - https://adamtheautomator.com/powershell-async/
 
- 
+# Re-launch hidden via powershell.exe to bypass Windows Terminal
+if (-not ($env:AWAKE_HIDDEN -eq '1')) {
+    $env:AWAKE_HIDDEN = '1'
+    Start-Process powershell.exe -ArgumentList "-WindowStyle Hidden -ExecutionPolicy Unrestricted -File `"$PSCommandPath`"" -WindowStyle Hidden
+    exit
+}
 
+Set-ExecutionPolicy Unrestricted -Scope CurrentUser
 
 [System.Reflection.Assembly]::LoadWithPartialName('System.Windows.Forms')       | out-null
 [System.Reflection.Assembly]::LoadWithPartialName('presentationframework')      | out-null
